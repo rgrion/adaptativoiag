@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root{
+      --bg:#e3f2fd; --card:#ffffff; --primary:#1976d2;
+      --primary-hover:#1565c0; --accent:#64b5f6;
+      --muted:#f4f7fb; --text:#0d1b2a;
+    }
+    body{
+      font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;
+      background:var(--bg);padding:20px;margin:0;color:var(--text);
+    }
+    .container{
+      background:var(--card);max-width:900px;margin:auto;padding:30px;
+      border-radius:12px;box-shadow:0 0 15px rgba(13,27,42,.08)
+    }
+    h2{color:var(--primary);margin-bottom:10px}
+    h3{margin-top:20px;color:#0f3660}
+    ul{padding-left:20px}
+    .pergunta{
+      margin:25px 0;padding:15px;background:#f7faff;
+      border-left:4px solid var(--accent);border-radius:6px
+    }
+    button{
+      background:var(--primary);color:#fff;border:none;
+      padding:12px 24px;border-radius:6px;font-size:16px;cursor:pointer
+    }
+    button:hover{background:var(--primary-hover)}
+    #mensagem{margin-top:15px;color:#d32f2f;font-weight:bold}
+    @media(max-width:600px){
+      .container{padding:20px}h2{font-size:1.25em}button{width:100%}
+    }
+    /* Barra de carregamento */
+    .loadingbar{
+      display:none;width:100%;background:#e0e0e0;border-radius:8px;
+      overflow:hidden;height:10px;margin-top:12px
+    }
+    .loadingbar>.inner{
+      width:0%;height:100%;background:var(--primary);
+      transition:width .2s linear
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Reforço -->
+    <h2>🔁 Reforço 02 – Criando Prompts Eficazes</h2>
+
+    <p style="text-align: justify;">
+      ✨ Você está no caminho certo!  
+      Alguns pontos ainda podem ser aprimorados, e isso faz parte do processo de aprendizagem.  
+      Neste reforço, vamos revisar juntos como criar prompts mais claros e eficazes para que você avance com mais segurança.
+    </p>
+
+    <h3>🎯 Seu objetivo aqui é reforçar a base:</h3>
+    <p>Aprender a escrever prompts claros, específicos e bem estruturados.</p>
+
+    <h3>✅ Revisão Conceitual</h3>
+
+    <p><b>💬 “Como criar prompts eficazes?”</b><br>
+    Um prompt é o ponto de partida para a IA gerar conteúdo.  
+    Pense nele como uma conversa estruturada: quanto mais claro você for, melhor a IA entende o que precisa fazer.</p>
+
+    <h3>📌 Dicas práticas:</h3>
+
+    <p>• Descreva o que quer, para quem e como deve soar.<br>
+       • Use exemplos de formato (tabela, resumo, poema, roteiro).<br>
+       • Peça revisões: “explique com outras palavras”, “adapte para o público X”.<br>
+       • Teste e refine — IA é interação, não mágica!</p>
+
+    <p><b>💬 Exemplo:</b><br>
+       ❌ “Explique IA.”<br>
+       ✅ “Explique o que é Inteligência Artificial de forma simples, em até 3 parágrafos, usando exemplos do cotidiano.”</p>
+
+    <hr>
+
+    <!-- Quiz -->
+    <h2>📝 Quiz do Reforço 02</h2>
+    <form id="quizForm">
+      <div class="pergunta">
+        <p><b>1.</b> Um bom prompt deve:</p>
+        <label><input type="radio" name="q1" value="a"> a) Ser curto e genérico, deixando a IA livre para decidir o conteúdo.</label><br>
+        <label><input type="radio" name="q1" value="b"> b) Evitar detalhes e exemplos para não limitar o estilo da resposta.</label><br>
+        <label><input type="radio" name="q1" value="c"> c) Ser claro e contextualizado, indicando formato, público e objetivo.</label><br>
+        <label><input type="radio" name="q1" value="d"> d) Pedir um texto amplo sem definir o tema central da solicitação.</label>
+      </div>
+
+      <div class="pergunta">
+        <p><b>2.</b> Quando a IA “alucina”, significa que:</p>
+        <label><input type="radio" name="q2" value="a"> a) Fica sem conexão com o servidor usado no processo de geração.</label><br>
+        <label><input type="radio" name="q2" value="b"> b) Rejeita a solicitação do usuário devido a falha no sistema.</label><br>
+        <label><input type="radio" name="q2" value="c"> c) Cria uma resposta aleatória sem sentido claro.</label><br>
+        <label><input type="radio" name="q2" value="d"> d) Gera resposta incorreta com aparência de verdade e coerência textual.</label>
+      </div>
+
+      <div class="pergunta">
+        <p><b>3.</b> Sobre boas práticas de engenharia de prompt, qual alternativa representa um exemplo adequado?</p>
+        <label><input type="radio" name="q3" value="a"> a) Fornecer instruções claras, definindo objetivo, público-alvo e tipo de saída desejada.</label><br>
+        <label><input type="radio" name="q3" value="b"> b) Enviar instruções vagas para permitir que a IA escolha livremente o estilo e o objetivo da resposta.</label><br>
+        <label><input type="radio" name="q3" value="c"> c) Solicitar uma explicação complexa sem indicar público, contexto ou profundidade desejada.</label><br>
+        <label><input type="radio" name="q3" value="d"> d) Pedir que a IA gere um texto técnico, mas sem especificar formato, extensão ou foco do conteúdo.</label>
+      </div>
+
+      <button type="button" id="btnEnviar" onclick="enviar()">Enviar Respostas</button>
+      <div class="loadingbar" id="loadingBar"><div class="inner" id="loadingInner"></div></div>
+      <div id="feedback" style="display:none; margin-top:14px"></div>
+      <p id="mensagem"></p>
+    </form>
+  </div>
+
+<script>
+(function(){
+  let enviando=false, progTimer=null, proximaPaginaDecidida=null;
+  const GAB={q1:'c',q2:'d',q3:'a'};
+
+  function getChecked(name){
+    const nodes=document.getElementsByName(name);
+    for(const n of nodes) if(n.checked) return n.value;
+    return null;
+  }
+  function setMsg(t){const el=document.getElementById('mensagem');if(el)el.textContent=t||'';}
+  function startLoading(){
+    const bar=document.getElementById('loadingBar');
+    const inner=document.getElementById('loadingInner');
+    if(!bar||!inner)return;
+    bar.style.display='block';inner.style.width='0%';
+    let pct=0;
+    progTimer=setInterval(()=>{
+      pct=Math.min(100,pct+Math.random()*12+3);
+      inner.style.width=pct+'%';
+      if(pct>=95){clearInterval(progTimer);progTimer=null;}
+    },180);
+  }
+  function stopLoading(){
+    const inner=document.getElementById('loadingInner');
+    if(progTimer){clearInterval(progTimer);progTimer=null;}
+    if(inner)inner.style.width='100%';
+  }
+  function renderFeedback(resps){
+    const fb=document.getElementById('feedback');
+    if(!fb)return;
+    const itens=['q1','q2','q3'].map((qid,i)=>{
+      const marcada=resps[qid],correta=GAB[qid],ok=marcada===correta;
+      return `<div style="padding:10px;border-left:4px solid ${ok?'#2e7d32':'#d32f2f'};background:#f7faff;border-radius:6px;margin:8px 0">
+      <b>${i+1}.</b> ${ok?'✅ Acertou':'❌ Errou'}<br>
+      <small>Sua: <b>${(marcada||'-').toUpperCase()}</b> · Correta: <b>${correta.toUpperCase()}</b></small></div>`;
+    }).join('');
+    fb.innerHTML=`<h3 style="margin:8px 0 4px 0;color:#0f3660">Gabarito</h3>${itens}`;
+    fb.style.display='block';
+  }
+
+  function enviar(){
+    if(enviando)return;
+    enviando=true;
+    const btn=document.getElementById('btnEnviar');
+    if(btn){btn.disabled=true;btn.textContent='Enviando...';}
+    setMsg('');
+    const respostas={q1:getChecked('q1'),q2:getChecked('q2'),q3:getChecked('q3')};
+    if(!respostas.q1||!respostas.q2||!respostas.q3){
+      setMsg('❗ Responda todas as perguntas.');if(btn){btn.disabled=false;btn.textContent='Enviar Respostas';}
+      enviando=false;return;
+    }
+
+    const email = sessionStorage.getItem('email');
+    if (!email){
+      setMsg('⚠️ E-mail do aluno não encontrado. Volte à tela inicial.');
+      if (btn){ btn.disabled = false; btn.textContent = 'Enviar Respostas'; }
+      document.body.style.cursor = 'default';
+      enviando = false;
+      return;
+    }
+
+    renderFeedback(respostas);
+    const pacote=[email,respostas.q1,respostas.q2,respostas.q3];
+    startLoading();
+    google.script.run
+      .withSuccessHandler(function(proxima){
+        stopLoading();
+        proximaPaginaDecidida=String(proxima||'').replace(/\.html?$/i,'')||'topico03';
+        if(btn){btn.disabled=false;btn.textContent='Ir para o próximo';btn.onclick=irParaProximo;}
+        enviando=false;
+      })
+      .withFailureHandler(function(e){
+        stopLoading();console.error(e);
+        setMsg('Erro ao salvar respostas.');
+        if(btn){btn.disabled=false;btn.textContent='Enviar Respostas';btn.onclick=enviar;}
+        enviando=false;
+      })
+      .corrigirReforco02(pacote);
+  }
+
+  function irParaProximo(){
+    if(!proximaPaginaDecidida){setMsg('Aguarde o salvamento.');return;}
+    const btn=document.getElementById('btnEnviar');
+    if(btn){btn.disabled=true;btn.textContent='Abrindo...';}
+    google.script.run
+      .withSuccessHandler(function(html){document.open();document.write(html);document.close();})
+      .withFailureHandler(function(e){
+        console.error(e);setMsg('Falha ao abrir próxima página.');
+        if(btn){btn.disabled=false;btn.textContent='Ir para o próximo';}
+      })
+      .incluir(proximaPaginaDecidida);
+  }
+
+  window.enviar=enviar;
+  window.irParaProximo=irParaProximo;
+  window.addEventListener('keydown',e=>{if(e.key==='Enter')enviar();});
+})();
+</script>
+
+</body>
+</html>

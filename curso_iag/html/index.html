@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fundamentos de IA Generativa</title>
+  <style>
+    :root {
+      --bg: #e3f2fd;
+      --card: #ffffff;
+      --primary: #1976d2;
+      --primary-hover: #1565c0;
+      --accent: #64b5f6;
+      --muted: #f4f7fb;
+      --text: #0d1b2a;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(270deg, #e3f2fd, #bbdefb);
+      background-size: 400% 400%;
+      animation: gradientAnim 12s ease infinite;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text);
+    }
+
+    @keyframes gradientAnim {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      background: var(--card);
+      text-align: center;
+      max-width: 700px;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    p {
+      font-size: 1.2em;
+      margin-bottom: 20px;
+    }
+
+    .emoji {
+      font-size: 3em;
+      animation: pulse 1.8s infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      font-size: 1.1em;
+      width: 100%;
+      max-width: 350px;
+      margin: 10px auto 20px auto;
+      display: block;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      text-align: center;
+      letter-spacing: 5px;
+    }
+
+    button {
+      background-color: var(--primary);
+      color: white;
+      font-size: 1.1em;
+      padding: 14px 30px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: var(--primary-hover);
+      transform: scale(1.05);
+    }
+
+    #mensagem {
+      color: red;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    /* Barra de carregamento (mesma dos tópicos) */
+    .loadingbar{display:none;width:100%;background:#e0e0e0;border-radius:8px;overflow:hidden;height:10px;margin-top:12px}
+    .loadingbar>.inner{width:0%;height:100%;background:var(--primary);transition:width .2s linear}
+
+    @media (max-width: 600px) {
+      .container { padding: 25px; }
+      h1 { font-size: 1.5em; }
+      p { font-size: 1em; }
+      button { width: 100%; font-size: 1em; }
+      .emoji { font-size: 2.5em; }
+    }
+    .aviso-rotacao {
+      margin-top: 12px;
+      font-size: 0.9em;
+      color: #0d1b2a;
+      opacity: 0.9;
+      text-align: right;
+    }
+    .aviso-rotacao .suporte-email {
+      margin-top: 4px;
+      font-size: 0.85em;
+    }
+
+    .emoji-rotacao {
+      display: inline-block;
+      animation: girar 3s infinite ease-in-out;
+      margin-right: 6px;
+    }
+
+    @keyframes girar {
+      0%   { transform: rotate(0deg); }     /* em pé */
+      40%  { transform: rotate(90deg); }    /* deitado */
+      60%  { transform: rotate(90deg); }    /* mantém deitado um pouco */
+      100% { transform: rotate(0deg); }     /* volta a ficar em pé */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="emoji">🤖✨</div>
+    <h1>Bem-vindo ao Mini Curso de Fundamentos de IA Generativa!</h1>
+    <p>
+      Aprenda os principais conceitos de Inteligência Artificial Generativa,
+      tudo de forma simples, objetiva e adaptada ao seu ritmo.
+    </p>
+    <p>Digite seu e-mail para acessar ou continuar o curso:</p>
+
+    <input type="text" id="email" placeholder="seuemail@exemplo.com">
+
+    <div class="aviso-rotacao">
+      <div>
+        Curso otimizado para computador.<br>
+        No celular, use na horizontal. <span class="emoji-rotacao">📱</span>
+      </div>
+      <div class="suporte-email">
+        Suporte: <a href="mailto:renan.grion@edu.unirio.br">renan.grion@edu.unirio.br</a>
+      </div>
+    </div>
+
+    <button id="btnStart" onclick="startCurso()">Começar/Continuar Curso</button>
+
+    <div class="loadingbar" id="loadingBar">
+      <div class="inner" id="loadingInner"></div>
+    </div>
+
+    <div id="mensagem"></div>
+  </div> <!-- FECHA container -->
+
+<script>
+(function(){
+  let enviando = false;
+  let __timer = null;
+
+  // === Barra de carregamento ===
+  function startLoading(){
+    const bar   = document.getElementById('loadingBar');
+    const inner = document.getElementById('loadingInner');
+    if (!bar || !inner) return;
+
+    bar.style.display = 'block';
+    inner.style.width = '0%';
+    let pct = 0;
+
+    __timer = setInterval(()=>{
+      pct = Math.min(100, pct + 10);
+      inner.style.width = pct + '%';
+      if (pct >= 95){
+        clearInterval(__timer);
+        __timer = null;
+      }
+    }, 150);
+  }
+
+  function stopLoading(){
+    const bar   = document.getElementById('loadingBar');
+    const inner = document.getElementById('loadingInner');
+    if (__timer){
+      clearInterval(__timer);
+      __timer = null;
+    }
+    if (inner) inner.style.width = '100%';
+    setTimeout(()=>{ if (bar) bar.style.display = 'none'; }, 250);
+  }
+
+  // === Início do curso ===
+  function startCurso() {
+    if (enviando) return;
+    enviando = true;
+
+    const input = document.getElementById("email");
+    const msg   = document.getElementById("mensagem");
+    const btn   = document.getElementById("btnStart");
+
+    const email = (input && input.value ? input.value : '').trim().toLowerCase();
+
+    // validação simples: exige e-mail preenchido
+    if (!email) {
+      if (msg) msg.innerText = "Digite seu e-mail para acessar o curso.";
+      enviando = false;
+      return;
+    }
+
+    if (btn) { btn.disabled = true; btn.textContent = 'carregando...'; }
+    if (msg) msg.textContent = '';
+    document.body.style.cursor = 'wait';
+    startLoading();
+
+    // grava email no navegador
+    try { sessionStorage.setItem("email", email); } catch (_) {}
+
+    // 1) tenta recuperar progresso existente
+    google.script.run
+      .withSuccessHandler(function(destino){
+        destino = String(destino || 'introducao')
+                    .trim()
+                    .replace(/\.html?$/i,'') + '.html';
+
+        // inclui a página
+        google.script.run
+          .withSuccessHandler(function(html){
+            stopLoading();
+            if (btn) { btn.disabled = false; btn.textContent = 'Começar Curso'; }
+            document.body.style.cursor = 'default';
+            enviando = false;
+            document.open(); document.write(html); document.close();
+          })
+          .withFailureHandler(function(err2){
+            stopLoading();
+            console.error('Falha ao incluir página:', err2);
+            if (msg) msg.innerText = "Não consegui abrir a próxima página. Tente novamente.";
+            if (btn) { btn.disabled = false; btn.textContent = 'Começar Curso'; }
+            document.body.style.cursor = 'default';
+            enviando = false;
+          })
+          .incluir(destino);
+      })
+      .withFailureHandler(function(err1){
+        console.error('verificarAluno falhou, usando fallback bootstrapAluno:', err1);
+
+        // 2) fallback: cria aluno novo
+        google.script.run
+          .withSuccessHandler(function(destino){
+            destino = String(destino || 'introducao')
+                        .trim()
+                        .replace(/\.html?$/i,'') + '.html';
+
+            google.script.run
+              .withSuccessHandler(function(html){
+                stopLoading();
+                if (btn) { btn.disabled = false; btn.textContent = 'Começar Curso'; }
+                document.body.style.cursor = 'default';
+                enviando = false;
+                document.open(); document.write(html); document.close();
+              })
+              .withFailureHandler(function(e2){
+                stopLoading();
+                console.error('Falha ao incluir página (fallback):', e2);
+                if (msg) msg.innerText = "Erro ao abrir a página inicial.";
+                document.body.style.cursor = 'default';
+                if (btn) { btn.disabled = false; btn.textContent = 'Começar Curso'; }
+                enviando = false;
+              })
+              .incluir(destino);
+          })
+          .bootstrapAluno(email, 'introducao.html');
+      })
+      .verificarAluno(email);
+  }
+
+  // exporta o handler
+  window.startCurso = startCurso;
+
+  // enter inicia
+  window.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') startCurso();
+  });
+})();
+</script>
+</body>
+</html>

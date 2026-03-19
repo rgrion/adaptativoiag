@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diagnóstico Inicial</title>
+  <style>
+    :root{
+      --bg:#e3f2fd; --card:#ffffff; --primary:#1976d2;
+      --primary-hover:#1565c0; --accent:#64b5f6; --muted:#f4f7fb; --text:#0d1b2a;
+    }
+    body{
+      font-family:'Segoe UI',sans-serif; background:linear-gradient(135deg,#e3f2fd,#bbdefb);
+      margin:0; padding:20px; color:var(--text);
+    }
+    .container{
+      background:var(--card); max-width:800px; margin:auto; padding:30px;
+      border-radius:12px; box-shadow:0 0 20px rgba(13,27,42,.08); animation:fadeIn .8s ease;
+    }
+    h2{ color:var(--primary); text-align:center; margin-top:0 }
+    h3{ margin-top:24px; color:#0d1b2a }
+    /* Labels gerais */
+    label{
+      display:block;
+      font-weight:600;
+    }
+
+    /* Espaçamento só nos labels do perfil (os que são filhos diretos da .container) */
+    .container > label{
+      margin-top:15px;
+    }
+    select, textarea{
+      width:100%; padding:10px; margin-top:6px; border-radius:8px; border:1px solid #cfd8dc; font-size:1em; background:#fff;
+    }
+    textarea{ min-height:90px; resize:vertical }
+    .info{ background:#f7faff; border-left:4px solid var(--accent); padding:12px; border-radius:6px; margin-bottom:16px }
+    .tale{
+      margin-top:18px; border:1px solid #cfd8dc; border-radius:10px; background:#ffffff;
+      padding:0; overflow:hidden;
+    }
+    .tale > summary{
+      cursor:pointer; list-style:none; padding:14px 16px; font-weight:700; color:var(--primary);
+      background:linear-gradient(180deg,#f7fbff,#f0f6fc);
+    }
+    .tale > summary::marker{ display:none }
+    .tale-body{
+      padding:14px 16px; max-height:280px; overflow:auto; line-height:1.45;
+    }
+    .tale-body h3{ margin:12px 0 6px; font-size:1.02rem; color:#0d1b2a }
+    .tale-body p{ margin:8px 0 }
+    .tale-body ul{ margin:6px 0 10px 18px }
+    .subtle{ color:#546e7a; font-weight:400; margin:6px 0 12px }
+    button{
+      margin-top:25px; padding:12px 24px; font-size:1.05em; background:var(--primary);
+      color:#fff; border:none; border-radius:8px; cursor:pointer; transition:background .3s, transform .2s;
+    }
+    button:hover{ background:var(--primary-hover); transform:scale(1.02) }
+    #mensagem{ color:#d32f2f; margin-top:12px; font-weight:700 }
+    @keyframes fadeIn{ from{opacity:0; transform:translateY(12px)} to{opacity:1; transform:translateY(0)} }
+    @media (max-width:600px){ .container{padding:20px} }
+    small.muted{ color:#546e7a; font-weight:400 }
+
+        /* Barra de carregamento (mesma dos outros screens) */
+    .loadingbar{
+      display:none;
+      width:100%;
+      background:#e0e0e0;
+      border-radius:8px;
+      overflow:hidden;
+      height:10px;
+      margin-top:12px;
+    }
+    .loadingbar > .inner{
+      width:0%;
+      height:100%;
+      background:var(--primary);
+      transition:width .2s linear;
+    }
+    /* Bloco das perguntas no estilo dos tópicos 03/04 */
+    .pergunta{
+      margin:25px 0;
+      padding:15px;
+      background:#f7faff;
+      border-left:4px solid var(--accent);
+      border-radius:6px;
+    }
+    .pergunta p{
+      margin:0 0 8px 0;
+      font-weight:600;
+    }
+    /* Alternativas mais compactas, cada uma em uma linha */
+    .pergunta label{
+      display:block;
+      margin:4px 0;
+      font-weight:400;
+      line-height:1.3;
+    }
+    /* Radio igual aos tópicos */
+    .pergunta input[type="radio"]{
+      margin-right:8px;
+      transform:none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🧠 Diagnóstico Inicial – Fundamentos de IA Generativa</h2>
+    <div class="info">
+      Este breve diagnóstico ajuda a entender seu perfil e seu contato prévio com <b>Inteligência Artificial Generativa</b>.
+    </div>
+
+    <!-- PERFIL BÁSICO -->
+    <label for="idade">Faixa etária:</label>
+    <select id="idade">
+      <option value="">Selecione</option>
+      <option>18–20 anos</option>
+      <option>21–25 anos</option>
+      <option>26–30 anos</option>
+      <option>31–35 anos</option>
+      <option>36–40 anos</option>
+      <option>41+</option>
+    </select>
+
+    <label for="genero">Gênero:</label>
+    <select id="genero">
+      <option value="">Selecione</option>
+      <option>Feminino</option>
+      <option>Masculino</option>
+      <option>Outros</option>
+      <option>Prefiro não informar</option>
+    </select>
+
+    <label for="escolaridade">Grau de escolaridade:</label>
+    <select id="escolaridade">
+      <option value="">Selecione</option>
+      <option>Ensino Médio/Técnico</option>
+      <option>Ensino Superior Cursando</option>
+      <option>Ensino Superior Completo</option>
+      <option>Pós-graduação</option>
+    </select>
+
+    <label for="area">Área do conhecimento (principal área de formação ou interesse):</label>
+    <select id="area">
+      <option value="">Selecione</option>
+      <option>Artes e Design</option>
+      <option>Ciências Agrárias</option>
+      <option>Ciências Biológicas e Meio Ambiente</option>
+      <option>Ciências da Saúde</option>
+      <option>Ciências Exatas e Naturais</option>
+      <option>Ciências Humanas</option>
+      <option>Ciências Sociais Aplicadas</option>
+      <option>Educação e Pedagogia</option>
+      <option>Empreendedorismo e Negócios Digitais</option>
+      <option>Engenharias</option>
+      <option>Linguagens, Letras e Comunicação</option>
+      <option>Segurança e Defesa</option>
+      <option>Tecnologia da Informação e Computação</option>
+      <option>Outro</option>
+    </select>
+
+    <label for="usoIA">Você utiliza alguma ferramenta de Inteligência Artificial generativa?</label>
+    <select id="usoIA">
+      <option value="">Selecione</option>
+      <option>Sim, frequentemente</option>
+      <option>Sim, algumas vezes</option>
+      <option>Já vi, mas nunca usei</option>
+      <option>Nunca usei</option>
+    </select>
+
+    <label for="estudoIA">Você já estudou conceitos de IA antes?</label>
+    <select id="estudoIA">
+      <option value="">Selecione</option>
+      <option>Sim, de forma estruturada</option>
+      <option>Sim, superficialmente</option>
+      <option>Apenas ouvi falar</option>
+      <option>Nunca estudei</option>
+    </select>
+
+    <label for="familiaridadeTec">Qual seu nível de familiaridade com tecnologia digital?</label>
+    <select id="familiaridadeTec">
+      <option value="">Selecione</option>
+      <option>Alto</option>
+      <option>Médio</option>
+      <option>Baixo</option>
+      <option>Muito baixo</option>
+    </select>
+
+    <label for="interesseIA">Seu interesse em IA generativa é:</label>
+    <select id="interesseIA">
+      <option value="">Selecione</option>
+      <option>Alto – quero aprender profundamente</option>
+      <option>Médio – quero conhecer o básico</option>
+      <option>Baixo – apenas curiosidade</option>
+      <option>Muito baixo – não tenho interesse específico</option>
+    </select>
+
+    <!-- PRÉ-TESTE CONCEITUAL – MÚLTIPLA ESCOLHA -->
+    <h3>🧩 Pré-teste sobre IA Generativa</h3>
+    <p class="subtle">
+      Este pré-teste serve apenas para entender seu ponto de partida — não vale nota e não exige conhecimento prévio.  
+      Ele nos ajuda a identificar seus conhecimentos iniciais sobre Inteligência Artificial Generativa.
+      <br>
+      👉 Responda do jeito que você acha correto agora. Não se preocupe em acertar tudo. 😉
+    </p>
+
+    <!-- Q1 -->
+    <div class="pergunta">
+      <p><b>1. Sobre IA simbólica e IA conexionista, assinale a opção mais adequada:</b></p>
+      <label><input type="radio" name="q1" value="a"> a) A simbólica usa exemplos massivos, e a conexionista segue regras fixas definidas.</label>
+      <label><input type="radio" name="q1" value="b"> b) A simbólica usa regras explícitas, e a conexionista aprende padrões usando dados.</label>
+      <label><input type="radio" name="q1" value="c"> c) A simbólica usa processadores neurais, e a conexionista dispensa hardware avançado.</label>
+      <label><input type="radio" name="q1" value="d"> d) A simbólica é recente na área, e a conexionista surgiu apenas nas últimas décadas.</label>
+    </div>
+
+    <!-- Q2 -->
+    <div class="pergunta">
+      <p><b>2. O <em>deep learning</em> contribuiu para a IA generativa porque:</b></p>
+      <label><input type="radio" name="q2" value="a"> a) Tornou dispensável o uso de dados rotulados, permitindo aprendizado totalmente autônomo.</label>
+      <label><input type="radio" name="q2" value="b"> b) Substituiu métodos estatísticos, tornando os modelos puramente conexionistas e autoajustáveis.</label>
+      <label><input type="radio" name="q2" value="c"> c) Permitiu redes profundas que extraem padrões complexos e hierárquicos dos dados usados.</label>
+      <label><input type="radio" name="q2" value="d"> d) Eliminou etapas manuais, fazendo que todos os modelos funcionem sem intervenção humana.</label>
+    </div>
+
+    <!-- Q3 -->
+    <div class="pergunta">
+      <p><b>3. Em modelos como o GPT, o texto é gerado por:</b></p>
+      <label><input type="radio" name="q3" value="a"> a) Buscar frases do treino e montar respostas por similaridade textual.</label>
+      <label><input type="radio" name="q3" value="b"> b) Aplicar regras gramaticais fixas para formar frases de modo determinístico.</label>
+      <label><input type="radio" name="q3" value="c"> c) Prever a próxima palavra com base no contexto e nas relações aprendidas.</label>
+      <label><input type="radio" name="q3" value="d"> d) Escolher palavras ao acaso do vocabulário, criando textos sem estrutura.</label>
+    </div>
+
+    <!-- Q4 -->
+    <div class="pergunta">
+      <p><b>4. Um prompt eficaz tende a:</b></p>
+      <label><input type="radio" name="q4" value="a"> a) Indicar objetivo, público, formato e limites de modo claro e direto.</label>
+      <label><input type="radio" name="q4" value="b"> b) Trazer pouco contexto para evitar interferências no processamento da IA.</label>
+      <label><input type="radio" name="q4" value="c"> c) Ser vago para deixar a IA definir livremente conteúdo e estilo da resposta.</label>
+      <label><input type="radio" name="q4" value="d"> d) Evitar exemplos e detalhes para não impor limites à criatividade do modelo.</label>
+    </div>
+
+    <!-- Q5 -->
+    <div class="pergunta">
+      <p><b>5. Sobre LLMs e modelos de difusão, assinale a correta:</b></p>
+      <label><input type="radio" name="q5" value="a"> a) LLMs geram imagens, e difusão trabalha apenas com produção textual.</label>
+      <label><input type="radio" name="q5" value="b"> b) LLMs e difusão são iguais, mudando só a linguagem usada no código.</label>
+      <label><input type="radio" name="q5" value="c"> c) Difusão não usa dados de treino, pois funciona só com parâmetros internos.</label>
+      <label><input type="radio" name="q5" value="d"> d) LLMs lidam com texto, e difusão cria imagens e vídeos a partir de ruído.</label>
+    </div>
+
+    <!-- Q6 -->
+    <div class="pergunta">
+      <p><b>6. Um risco da IA generativa é a “alucinação”, isto é:</b></p>
+      <label><input type="radio" name="q6" value="a"> a) Falhas de rede que desconectam o modelo dos servidores por instabilidade.</label>
+      <label><input type="radio" name="q6" value="b"> b) Respostas erradas que parecem verdadeiras e convincentes ao usuário.</label>
+      <label><input type="radio" name="q6" value="c"> c) Repetição automática de respostas iguais sem relação com o pedido feito.</label>
+      <label><input type="radio" name="q6" value="d"> d) Textos incompletos gerados por interrupção no processo de treinamento.</label>
+    </div>
+
+    <!-- Q7 -->
+    <div class="pergunta">
+      <p><b>7. Em ética, a transparência no uso de IA implica:</b></p>
+      <label><input type="radio" name="q7" value="a"> a) Omitir a ferramenta para manter a aparência de autoria totalmente humana.</label>
+      <label><input type="radio" name="q7" value="b"> b) Exigir divulgação do código-fonte sempre que a IA for usada em trabalhos.</label>
+      <label><input type="radio" name="q7" value="c"> c) Indicar o uso de IA e explicar de forma simples como ela ajudou no processo.</label>
+      <label><input type="radio" name="q7" value="d"> d) Transferir toda a responsabilidade pelos resultados à empresa da IA.</label>
+    </div>
+
+    <!-- Q8 -->
+    <div class="pergunta">
+      <p><b>8. Sobre direitos autorais e IA generativa:</b></p>
+      <label><input type="radio" name="q8" value="a"> a) A autoria é do humano que orienta a criação, devendo declarar o uso da IA.</label>
+      <label><input type="radio" name="q8" value="b"> b) A IA é autora legal de obras produzidas sem intervenção humana direta.</label>
+      <label><input type="radio" name="q8" value="c"> c) O usuário pode reivindicar autoria total mesmo sem atuar no processo.</label>
+      <label><input type="radio" name="q8" value="d"> d) Conteúdos feitos por IA são automaticamente públicos e sem direitos.</label>
+    </div>
+
+    <!-- Q9 -->
+    <div class="pergunta">
+      <p><b>9. Em educação, um sistema adaptativo com IA pode:</b></p>
+      <label><input type="radio" name="q9" value="a"> a) Ajustar conteúdo e ritmo com base no desempenho e nas necessidades do aluno.</label>
+      <label><input type="radio" name="q9" value="b"> b) Aplicar a mesma sequência de aulas para garantir total uniformidade no ensino.</label>
+      <label><input type="radio" name="q9" value="c"> c) Substituir completamente o professor na mediação e avaliação do processo.</label>
+      <label><input type="radio" name="q9" value="d"> d) Dispensar qualquer acompanhamento humano durante toda a aprendizagem.</label>
+    </div>
+
+    <!-- Q10 -->
+    <div class="pergunta">
+      <p><b>10. Sobre criatividade na era da IA:</b></p>
+      <label><input type="radio" name="q10" value="a"> a) A IA substitui a intenção humana, tornando desnecessário o papel do autor no processo.</label>
+      <label><input type="radio" name="q10" value="b"> b) Criatividade autêntica exige total ausência de tecnologia e atuação apenas humana.</label>
+      <label><input type="radio" name="q10" value="c"> c) Coautoria não se aplica a trabalhos profissionais, só a experimentos informais.</label>
+      <label><input type="radio" name="q10" value="d"> d) A IA combina padrões aprendidos, mas o sentido final depende da curadoria humana.</label>
+    </div>
+
+    <!-- TALE (MANTIDO) -->
+    <details class="tale" id="taleBox">
+      <summary>📄 Termo de Assentimento Livre e Esclarecido (TALE) — clique para ler</summary>
+      <div class="tale-body" id="taleContent">
+
+        <h3>1. Sobre esta pesquisa</h3>
+        <p>
+          Este curso integra uma pesquisa ....
+          O estudo é desenvolvido pelo .....</b>,
+          sob orientação da .......</b>.
+          A pesquisa investiga o desenvolvimento e a avaliação de um sistema 
+          adaptativo baseado em <b>Inteligência Artificial Simbólica (lógica fuzzy)</b>,
+          que analisa três dimensões de desempenho — <b>cognitiva, metacognitiva e afetiva</b> — 
+          para personalizar trilhas de aprendizagem de forma dinâmica.
+        </p>
+
+        <h3>2. Objetivo</h3>
+        <p>
+          O objetivo é analisar como estudantes interagem com conteúdos digitais
+          e como sistemas de IA podem personalizar o aprendizado,
+          oferecendo trilhas, feedback e atividades adaptadas.
+        </p>
+
+        <h3>3. O que você fará?</h3>
+        <p>
+          Sua participação envolve:
+        </p>
+        <ul>
+          <li>Responder um diagnóstico inicial;</li>
+          <li>Realizar atividades e quizzes ao longo do curso;</li>
+          <li>Interagir com trilhas personalizadas;</li>
+          <li>Responder um questionário final e percepção do usuário.</li>
+        </ul>
+
+        <h3>4. Privacidade e proteção dos dados</h3>
+        <p>
+          Todos os dados coletados serão <b>anonimizados</b> e utilizados apenas para fins
+          acadêmicos e científicos, conforme a <b>Lei Geral de Proteção de Dados (LGPD –
+          Lei nº 13.709/2018)</b>.  
+          Nenhuma informação pessoal será divulgada.
+        </p>
+
+        <h3>5. Riscos e benefícios</h3>
+        <ul>
+          <li><b>Riscos:</b> mínimos, como cansaço ao responder formulários.</li>
+          <li>
+            <b>Benefícios:</b> aprender conceitos de IA generativa, experimentar trilhas
+            personalizadas e contribuir para avanços em educação mediada por tecnologia.
+          </li>
+        </ul>
+
+        <h3>6. Participação voluntária</h3>
+        <p>
+          Sua participação é <b>voluntária</b>.  
+          Você pode desistir a qualquer momento, antes do envio final das respostas,
+          sem qualquer prejuízo.
+        </p>
+
+        <h3>7. Contatos</h3>
+        <p>
+          <b>xxxxxxxxxxxxxxxxxxxx<br>
+          <b>E-mail:</b> xxxxxxxxxxxxxxx
+        </p>
+        <p>
+          <b>xxxxxxxxxxxxxxxxxxxx<br>
+          <b>E-mail:</b> xxxxxxxxxxxxxxx
+        </p>
+
+        <h3>8. Comitê de Ética xxxxxxxxxxxxxxxxxxx</h3>
+        <p>
+          Endereço: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx<br>
+          Telefone: xxxxxxxxxx<br>
+          E-mail: xxxxxxxxx
+        </p>
+
+        <h3>9. Consentimento</h3>
+        <p>
+          Ao marcar a opção de concordância abaixo e prosseguir,
+          você declara que <b>leu</b> este Termo, <b>compreendeu</b> todas as informações e 
+          <b>concorda voluntariamente</b> em participar da pesquisa.
+          Caso não concorde, basta não prosseguir.
+        </p>
+
+      </div>
+    </details>
+
+    <label style="margin-top:14px">
+      <input type="checkbox" id="aceito">
+      Declaro que <b>li</b> o TALE e <b>concordo</b> em participar do estudo e do curso.
+    </label>
+    <small class="muted">Você pode desmarcar e sair a qualquer momento antes de enviar.</small>
+
+    <!-- carimbo de data/hora do aceite (preenchido no envio) -->
+    <input type="hidden" id="aceite_timestamp" value="">
+
+    <button id="btnEnviar" onclick="enviar()">Confirmar e Continuar</button>
+
+    <div class="loadingbar" id="loadingBar">
+      <div class="inner" id="loadingInner"></div>
+    </div>
+
+    <p id="mensagem"></p>
+  </div> <!-- fecha container -->
+
+<script>
+(function(){
+  // debug global: mostra JS errors
+  window.addEventListener('error', function(e){
+    const m = document.getElementById('mensagem');
+    if (m) m.textContent = 'Erro JS: ' + e.message;
+    console.error('[DIAGNOSTICO] JS Error:', e.message, e.filename + ':' + e.lineno);
+  });
+
+  let enviando = false;
+  let progTimer = null;
+
+  // === Loading bar ===
+  function startLoading(){
+    const bar   = document.getElementById('loadingBar');
+    const inner = document.getElementById('loadingInner');
+    if (!bar || !inner) return;
+    bar.style.display = 'block';
+    inner.style.width = '0%';
+    let pct = 0;
+    progTimer = setInterval(() => {
+      pct = Math.min(100, pct + Math.random()*12 + 3);
+      inner.style.width = pct + '%';
+      if (pct >= 95){
+        clearInterval(progTimer);
+        progTimer = null;
+      }
+    }, 180);
+  }
+
+  function stopLoading(){
+    const bar   = document.getElementById('loadingBar');
+    const inner = document.getElementById('loadingInner');
+    if (progTimer){
+      clearInterval(progTimer);
+      progTimer = null;
+    }
+    if (inner) inner.style.width = '100%';
+    if (bar)   bar.style.display = 'none';
+  }
+
+  function renderPage(page){
+    const destino = String(page).replace(/\.html?$/,'') + '.html';
+    console.log('[DIAGNOSTICO] renderPage →', destino);
+    google.script.run
+      .withSuccessHandler(function(html){
+        document.body.style.cursor = 'default';
+        document.open(); document.write(html); document.close();
+      })
+      .withFailureHandler(function(err){
+        console.error('[DIAGNOSTICO] incluir falhou:', err);
+        const msg = document.getElementById('mensagem');
+        if (msg) msg.textContent = 'Falha ao abrir a próxima página. Tente novamente.';
+        document.body.style.cursor = 'default';
+      })
+      .incluir(destino);
+  }
+
+  // ========= UTILITÁRIOS =========
+
+  // pega valor de input/select/textarea pelo id
+  function valueOf(id){
+    const el = document.getElementById(id);
+    return el ? String(el.value || '').trim() : '';
+  }
+
+  // pega valor da alternativa marcada (radio) pelo name
+  function valueRadio(name){
+    const el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? String(el.value || '').trim() : '';
+  }
+
+  // ========= CORREÇÃO DO PRÉ-TESTE (IA GENERATIVA) =========
+  function corrigirPreTeste(){
+    // gabarito por letra (a, b, c, d)
+    const certo = {
+      q1: 'b',  // simbólica usa regras explícitas; conexionista aprende padrões
+      q2: 'c',  // deep learning extrai padrões complexos em redes profundas
+      q3: 'c',  // GPT prevê a próxima palavra pelo contexto
+      q4: 'a',  // prompt eficaz indica objetivo, público, formato, limites
+      q5: 'd',  // LLMs → texto; difusão → imagens/vídeos a partir de ruído
+      q6: 'b',  // alucinação = resposta errada, mas convincente
+      q7: 'c',  // transparência = indicar uso de IA e explicar como ajudou
+      q8: 'a',  // autoria do humano que orienta a criação, declarando o uso de IA
+      q9: 'a',  // sistema adaptativo ajusta conteúdo e ritmo
+      q10:'d'   // IA combina padrões; sentido final é da curadoria humana
+    };
+
+    let acertos = 0;
+    for (let k in certo){
+      if (valueRadio(k) === certo[k]) acertos++;
+    }
+    const nota10  = acertos;       // 0..10 (1 ponto por item)
+    const nota100 = acertos * 10;  // 0..100, se precisar
+    return { acertos, nota10, nota100 };
+  }
+
+  // expõe para debug externo se quiser
+  window.corrigirPreTeste = corrigirPreTeste;
+
+  // ========= ENVIO =========
+  function enviar(){
+    if (enviando) return;
+    enviando = true;
+
+    const msg = document.getElementById('mensagem');
+    const btn = document.getElementById('btnEnviar');
+
+    // agora usamos e-mail como chave (do sessionStorage)
+    const email = (sessionStorage.getItem('email') || '')
+      .trim()
+      .toLowerCase();
+
+    if (!email) {
+      if (msg) msg.innerText = 'Erro ao recuperar seu e-mail. Volte para a tela inicial.';
+      enviando = false;
+      return;
+    }
+
+    const camposPerfil = [
+      'idade',            // Faixa etária
+      'genero',           // Gênero
+      'escolaridade',     // Grau de escolaridade
+      'area',             // Área do conhecimento
+      'usoIA',            // Uso de IA generativa
+      'estudoIA',         // Estudo prévio de IA
+      'familiaridadeTec', // Familiaridade com tecnologia digital
+      'interesseIA'       // Interesse em IA generativa
+    ];
+
+    const respostasPerfil = camposPerfil.map(id => valueOf(id));
+
+    // 10 questões do pré-teste (todas precisam estar respondidas)
+    const questoes = ['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
+    const respondeuTodas = questoes.every(name => valueRadio(name) !== '');
+
+    const aceito = !!(document.getElementById('aceito') && document.getElementById('aceito').checked);
+
+    const perfilIncompleto = respostasPerfil.includes('');
+
+    if (perfilIncompleto || !respondeuTodas || !aceito) {
+      if (msg) msg.innerText = 'Preencha todos os campos, responda o pré-teste e aceite o termo para continuar.';
+      enviando = false;
+      return;
+    }
+
+    // 👉 daqui pra frente, NÃO preenche mais com campos vazios.
+    // Vamos trabalhar só com os 8 campos reais de perfil.
+
+    // carimbo de data/hora do aceite (local ISO)
+    const tsEl = document.getElementById('aceite_timestamp');
+    if (tsEl) tsEl.value = new Date().toISOString();
+
+    // corrige e calcula nota do pré-teste (0..10)
+    const pre = corrigirPreTeste();
+
+    // Envia: E-mail + campos de perfil + "Sim" (consentimento) + NotaPre_0_10
+    const pacote = [email, ...respostasPerfil, "Sim", Number(pre.nota10)];
+
+
+    console.log('[DIAGNOSTICO] pre=', pre);
+    console.log('[DIAGNOSTICO] pacote →', pacote);
+
+    if (btn) { btn.disabled = true; btn.textContent = 'carregando...'; }
+    if (msg) msg.textContent = '';
+    document.body.style.cursor = 'wait';
+    startLoading();
+
+    google.script.run
+      .withSuccessHandler(function(proximaPagina){
+        console.log('[DIAGNOSTICO] registrarDiagnostico OK →', proximaPagina);
+
+        // 👉 REGISTRA PRIMEIRO ACESSO AGORA (linha já existe na planilha)
+        google.script.run.registrarPrimeiroAcesso(email);
+
+        let prox = String(proximaPagina || '').trim();
+        if (!prox) prox = 'topico01';
+        stopLoading();
+        renderPage(prox);
+      })
+      .withFailureHandler(function(err){
+        stopLoading();
+        console.error('[DIAGNOSTICO] registrarDiagnostico falhou:', err);
+        const emsg = (err && err.message) ? err.message : 'Erro desconhecido';
+        if (msg) msg.textContent = 'Não foi possível enviar o diagnóstico agora. ' + emsg;
+        if (btn) { btn.disabled = false; btn.textContent = 'Confirmar e Continuar'; }
+        document.body.style.cursor = 'default';
+        enviando = false;
+      })
+      .registrarDiagnostico(pacote);
+  }
+
+  // exporta o handler para o botão do HTML
+  window.enviar = enviar;
+
+  window.addEventListener('keydown', function(e){
+    if (e.key === 'Enter') enviar();
+  });
+})();
+</script>
+</body>
+</html>

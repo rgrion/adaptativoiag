@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Desafio 04 – Controle de Motor com Ponte H</title>
+  <style>
+    :root{
+      --bg:#e3f2fd; --card:#ffffff; --primary:#1976d2;
+      --primary-hover:#1565c0; --accent:#64b5f6; --muted:#f4f7fb; --text:#0d1b2a;
+    }
+    body{font-family:'Segoe UI',system-ui,-apple-system,Arial,sans-serif;background:linear-gradient(135deg,#e3f2fd,#bbdefb);margin:0;padding:20px;color:var(--text)}
+    .container{background:var(--card);max-width:900px;margin:auto;padding:30px;border-radius:12px;box-shadow:0 0 15px rgba(13,27,42,.08)}
+    h2{color:var(--primary);margin-bottom:10px}
+    h3{margin-top:20px;color:#0f3660}
+    p{line-height:1.6}
+    ul{padding-left:20px}
+    .info{background:#f7faff;border-left:4px solid var(--accent);padding:12px;border-radius:6px;margin:10px 0}
+    table{width:100%;border-collapse:collapse;margin:10px 0 16px}
+    th,td{border:1px solid #dde7f3;padding:10px;text-align:center}
+    th{background:#eef5ff}
+    .pergunta{margin:25px 0;padding:15px;background:#f7faff;border-left:4px solid var(--accent);border-radius:6px}
+    input[type="radio"] { margin-right: 8px; }
+    button{background:var(--primary);color:#fff;border:none;padding:12px 24px;border-radius:6px;font-size:16px;cursor:pointer}
+    button:hover{background:var(--primary-hover)}
+    #mensagem{margin-top:15px;color:#d32f2f;font-weight:700}
+    @media (max-width:600px){.container{padding:20px}h2{font-size:1.25em}button{width:100%}}
+    /* Barra de carregamento */
+    .loadingbar{display:none;width:100%;background:#e0e0e0;border-radius:8px;overflow:hidden;height:10px;margin-top:12px}
+    .loadingbar>.inner{width:0%;height:100%;background:var(--primary);transition:width .2s linear}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Desafio -->
+    <h2>🚀 Desafio 04 – IA e o Futuro da Aprendizagem</h2>
+
+    <p>🔥 Neste desafio, vamos explorar como a IA pode transformar práticas educacionais, incentivando autonomia, criatividade e pensamento crítico — muito além do simples uso técnico das ferramentas.</p>
+
+    <h3>📘 Situação-Problema</h3>
+
+    <p>Imagine que você precisa planejar uma atividade educacional inovadora para uma turma de ensino médio, integrando IA generativa ao processo criativo.</p>
+
+    <p>Seu objetivo é estimular o pensamento crítico, a autonomia e a autoria dos alunos — e não apenas o uso automático da tecnologia.</p>
+
+    <h3>🎯 Pergunta</h3>
+
+    <p><b>Qual abordagem representa o uso pedagógico mais adequado da IA nesse contexto?</b></p>
+
+    <div class="pergunta">
+      <label><input type="radio" name="q1" value="a"> a) Os alunos usam IA para criar protótipos e apresentam as ideias com análise crítica do processo realizado.</label><br>
+      <label><input type="radio" name="q1" value="b"> b) Os alunos produzem textos completos com IA e entregam o conteúdo sem revisão ou contribuição pessoal.</label><br>
+      <label><input type="radio" name="q1" value="c"> c) O professor elimina o uso de IA na sala de aula, exigindo que todos os trabalhos sejam feitos manualmente.</label><br>
+      <label><input type="radio" name="q1" value="d"> d) A IA gera automaticamente as respostas e define as notas com base apenas nos critérios internos do sistema.</label>
+    </div>
+
+    <button type="button" id="btnEnviar" onclick="enviar()">Enviar Resposta</button>
+    <div class="loadingbar" id="loadingBar"><div class="inner" id="loadingInner"></div></div>
+    <div id="feedback" style="display:none; margin-top:14px"></div>
+    <p id="mensagem"></p>
+  </div>
+
+<script>
+(function(){
+  // Segurança: captura erros globais
+  window.addEventListener('error', function(e){
+    const m = document.getElementById('mensagem');
+    if(m) m.textContent = 'Erro JS: ' + e.message;
+    console.error('[DESAFIO04] JS Error:', e.message, e.filename + ':' + e.lineno);
+  });
+
+  let enviando = false;
+  let progTimer = null;
+  let proximaPaginaDecidida = null;
+
+  function getChecked(name){
+    const nodes = document.getElementsByName(name);
+    for(const n of nodes) if(n.checked) return n.value;
+    return null;
+  }
+  function startLoading(){
+    const bar = document.getElementById('loadingBar');
+    const inner = document.getElementById('loadingInner');
+    if(!bar || !inner) return;
+    bar.style.display = 'block';
+    inner.style.width = '0%';
+    let pct = 0;
+    progTimer = setInterval(()=>{
+      pct = Math.min(100, pct + Math.random()*12 + 3);
+      inner.style.width = pct + '%';
+      if(pct >= 95){ clearInterval(progTimer); progTimer = null; }
+    }, 180);
+  }
+  function stopLoading(){
+    const inner = document.getElementById('loadingInner');
+    if(progTimer){ clearInterval(progTimer); progTimer = null; }
+    if(inner) inner.style.width = '100%';
+  }
+  function setMsg(txt){
+    const el = document.getElementById('mensagem');
+    if(el) el.textContent = txt || '';
+  }
+
+  // Gabarito local
+  const GABARITO = { q1:'a' };
+
+  function renderFeedback(resps){
+    const fb = document.getElementById('feedback');
+    if(!fb) return;
+    const marcada = resps.q1;
+    const correta = GABARITO.q1;
+    const ok = marcada === correta;
+
+    fb.innerHTML = `
+      <h3 style="margin:8px 0 4px 0;color:#0f3660">Gabarito</h3>
+      <div style="padding:10px;border-left:4px solid ${ok?'#2e7d32':'#d32f2f'};background:#f7faff;border-radius:6px;margin:8px 0">
+        <b>1.</b> ${ok?'✅ Acertou':'❌ Errou'}<br>
+        <small>Sua resposta: <b>${(marcada||'-').toUpperCase()}</b> · Correta: <b>${correta.toUpperCase()}</b></small>
+      </div>
+    `;
+    fb.style.display = 'block';
+  }
+
+  function irParaProximo(){
+    if(!proximaPaginaDecidida){
+      setMsg('Aguarde o salvamento para continuar…');
+      return;
+    }
+    const btn = document.getElementById('btnEnviar');
+    if(btn){ btn.disabled = true; btn.textContent = 'Abrindo…'; }
+    document.body.style.cursor = 'wait';
+
+    google.script.run
+      .withSuccessHandler(function(html){
+        document.open(); document.write(html); document.close();
+      })
+      .withFailureHandler(function(err2){
+        console.error('[DESAFIO04] incluir falhou:', err2);
+        setMsg('Falha ao abrir a próxima página. Tente novamente.');
+        if(btn){ btn.disabled = false; btn.textContent = 'Ir para o próximo'; btn.onclick = irParaProximo; }
+        document.body.style.cursor = 'default';
+      })
+      .incluir(proximaPaginaDecidida);
+  }
+
+  function enviar(){
+    if(enviando) return;
+    enviando = true;
+
+    const btn = document.getElementById('btnEnviar');
+    if(btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+    setMsg('');
+    document.body.style.cursor = 'wait';
+
+    const resposta = getChecked('q1');
+    if(!resposta){
+      setMsg('❗ Por favor, selecione uma alternativa.');
+      if(btn){ btn.disabled = false; btn.textContent = 'Enviar Resposta'; btn.onclick = enviar; }
+      document.body.style.cursor = 'default';
+      enviando = false;
+      return;
+    }
+
+    const email = sessionStorage.getItem('email');
+    if (!email){
+      setMsg('⚠️ E-mail do aluno não encontrado. Volte à tela inicial.');
+      if (btn){ btn.disabled = false; btn.textContent = 'Enviar Resposta'; }
+      document.body.style.cursor = 'default';
+      enviando = false;
+      return;
+    }
+
+    // 1) gabarito
+    renderFeedback({ q1: resposta });
+
+    // 2) salva e define rota
+    const pacote = [email, resposta];
+    startLoading();
+
+    google.script.run
+      .withSuccessHandler(function(proxima){
+        stopLoading();
+        proximaPaginaDecidida = String(proxima || '').replace(/\.html?$/i,'') || 'avaliacaofinal';
+        if(btn){
+          btn.disabled = false;
+          btn.textContent = 'Ir para o próximo';
+          btn.onclick = irParaProximo;           /* <- ajuste essencial */
+        }
+        document.body.style.cursor = 'default';
+        enviando = false;
+      })
+      .withFailureHandler(function(err){
+        stopLoading();
+        console.error('[DESAFIO04] corrigirDesafio04 falhou:', err);
+        setMsg('Não foi possível enviar sua resposta agora. Tente novamente.');
+        if(btn){
+          btn.disabled = false;
+          btn.textContent = 'Enviar Resposta';
+          btn.onclick = enviar;                  /* volta ao fluxo original */
+        }
+        document.body.style.cursor = 'default';
+        enviando = false;
+      })
+      .corrigirDesafio04(pacote);
+  }
+
+  // expõe handlers no escopo global (como no Tópico 01)
+  window.enviar = enviar;
+  window.irParaProximo = irParaProximo;
+
+  // Enter envia
+  window.addEventListener('keydown', function(e){
+    if(e.key === 'Enter') enviar();
+  });
+
+  // helper opcional
+  function goTo(page){
+    const base = window.location.href.split('?')[0];
+    window.location.replace(`${base}?p=${String(page).replace(/\.html?$/,'')}&ts=${Date.now()}`);
+  }
+  window.goTo = goTo;
+})();
+</script>
+</body>
+</html>

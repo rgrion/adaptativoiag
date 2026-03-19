@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root{
+      --bg: #e3f2fd;
+      --card: #ffffff;
+      --primary: #1976d2;
+      --primary-hover:#1565c0;
+      --accent:#64b5f6;
+      --muted:#f4f7fb;
+      --text:#0d1b2a;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      background: var(--bg);
+      padding: 20px;
+      margin: 0;
+      color: var(--text);
+    }
+    .container {
+      background: var(--card);
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(13,27,42,0.08);
+    }
+    h2 { color: var(--primary); margin-bottom: 10px; }
+    h3 { margin-top: 20px; color: #0f3660; }
+    pre {
+      background: var(--muted);
+      padding: 12px;
+      border-left: 4px solid var(--accent);
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+    ul { padding-left: 20px; }
+    .pergunta {
+      margin: 25px 0;
+      padding: 15px;
+      background: #f7faff;
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+    }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--primary-hover); }
+    input[type="radio"] { margin-right: 8px; }
+    #mensagem {
+      margin-top: 15px;
+      color: #d32f2f;
+      font-weight: bold;
+    }
+    /* Barra de carregamento (mínima, mesma dos outros) */
+    .loadingbar{display:none;width:100%;background:#e0e0e0;border-radius:8px;overflow:hidden;height:10px;margin-top:12px}
+    .loadingbar>.inner{width:0%;height:100%;background:var(--primary);transition:width .2s linear}
+    @media (max-width: 600px) {
+      .container { padding: 20px; }
+      h2 { font-size: 1.25em; }
+      button { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Reforço -->
+    <h2>🔁 Reforço 01 – Como a IA aprende?</h2>
+
+    <p>✨ Uma nova chance para fixar! Errar faz parte do processo de aprender.  
+    Neste momento, você está sendo convidado(a) a revisar, com mais calma, como a Inteligência Artificial aprende a partir de exemplos.  
+    Muita gente brilhante já errou várias vezes antes de acertar — o importante é persistir e compreender aos poucos.</p>
+
+    <h3>🎯 Seu objetivo aqui é reforçar a base:</h3>
+    <p>Entender, de forma simples, como a IA aprende com dados, qual a diferença entre IA tradicional e IA generativa e por que os dados de treino são tão importantes.</p>
+
+    <h3>✅ Revisão Conceitual</h3>
+
+    <p><b>💬 “Como a IA aprende?”</b><br>
+    De forma simplificada, uma IA aprende observando exemplos 👀.  
+    Durante o treinamento, ela recebe milhares ou milhões de dados e tenta descobrir padrões que a ajudem a prever ou gerar novos resultados.</p>
+
+    <p><b>📸 Exemplo:</b><br>
+    Para treinar uma IA que reconhece gatos:<br>
+    • São mostradas imagens rotuladas como “gato” ou “não gato”;<br>
+    • O sistema ajusta seus parâmetros até identificar o padrão visual característico de um gato.</p>
+
+    <p>Nos modelos generativos, o princípio é semelhante — mas em vez de apenas classificar, o objetivo é criar algo novo.  
+    ➡️ Assim, a IA não apenas reconhece o que é um gato… ela pode gerar uma imagem de gato que nunca existiu!</p>
+
+    <hr>
+
+    <!-- Quiz -->
+    <h2>📝 Quiz do Reforço 01</h2>
+    <form id="quizForm">
+      <div class="pergunta">
+        <p><b>1.</b> A principal diferença entre uma IA tradicional e uma IA generativa é que:</p>
+        <label><input type="radio" name="q1" value="a"> a) A tradicional segue padrões fixos e repete respostas treinadas.</label><br>
+        <label><input type="radio" name="q1" value="b"> b) A generativa cria novos conteúdos usando dados aprendidos.</label><br>
+        <label><input type="radio" name="q1" value="c"> c) Ambas executam instruções fixas sem variação no processo.</label><br>
+        <label><input type="radio" name="q1" value="d"> d) Nenhuma utiliza dados reais para gerar qualquer resultado.</label>
+      </div>
+
+      <div class="pergunta">
+        <p><b>2.</b> O aprendizado de máquina funciona, basicamente, ao:</p>
+        <label><input type="radio" name="q2" value="a"> a) Ajustar parâmetros internos usando erros e acertos do treino.</label><br>
+        <label><input type="radio" name="q2" value="b"> b) Copiar respostas antigas sem analisar padrões do modelo.</label><br>
+        <label><input type="radio" name="q2" value="c"> c) Executar comandos fixos sem utilizar exemplos de entrada.</label><br>
+        <label><input type="radio" name="q2" value="d"> d) Fazer cálculos aleatórios para tentar gerar um resultado.</label>
+      </div>
+
+      <div class="pergunta">
+        <p><b>3.</b> Uma IA treinada com dados enviesados tende a:</p>
+        <label><input type="radio" name="q3" value="a"> a) Corrigir automaticamente erros humanos sem precisar de revisão externa.</label><br>
+        <label><input type="radio" name="q3" value="b"> b) Ignorar informações incorretas e gerar respostas sempre neutras e fixas.</label><br>
+        <label><input type="radio" name="q3" value="c"> c) Reproduzir padrões distorcidos presentes nos dados usados no treino.</label><br>
+        <label><input type="radio" name="q3" value="d"> d) Eliminar variações estatísticas e manter resultados estáveis no modelo.</label>
+      </div>
+
+      <button type="button" id="btnEnviar" onclick="enviar()">Enviar Respostas</button>
+      <div class="loadingbar" id="loadingBar"><div class="inner" id="loadingInner"></div></div>
+      <div id="feedback" style="display:none; margin-top:14px"></div>
+      <p id="mensagem"></p>
+    </form>
+  </div>
+
+<script>
+(function(){
+  // ===== Estado =====
+  let enviando = false;
+  let progTimer = null;
+  let proximaPaginaDecidida = null; // rota devolvida pelo backend
+
+  // ===== Gabarito do Reforço 01 (quizzes.gs: ['a','c','d']) =====
+  const GABARITO = { q1:'b', q2:'a', q3:'c' };
+
+  // ===== Helpers =====
+  function getChecked(name){
+    const nodes = document.getElementsByName(name);
+    for (const n of nodes) if (n.checked) return n.value;
+    return null;
+  }
+  function startLoading(){
+    const bar = document.getElementById('loadingBar');
+    const inner = document.getElementById('loadingInner');
+    if(!bar || !inner) return;
+    bar.style.display = 'block';
+    inner.style.width = '0%';
+    let pct = 0;
+    progTimer = setInterval(()=>{
+      pct = Math.min(100, pct + Math.random()*12 + 3);
+      inner.style.width = pct + '%';
+      if(pct >= 95){ clearInterval(progTimer); progTimer = null; }
+    }, 180);
+  }
+  function stopLoading(){
+    const inner = document.getElementById('loadingInner');
+    if(progTimer){ clearInterval(progTimer); progTimer = null; }
+    if(inner) inner.style.width = '100%';
+  }
+  function setMsg(t){
+    const m = document.getElementById('mensagem');
+    if (m) m.textContent = t || '';
+  }
+
+  function renderFeedback(resps){
+    const fb = document.getElementById('feedback');
+    if(!fb) return;
+    const itens = ['q1','q2','q3'].map((qid,i)=>{
+      const marcada = resps[qid], correta = GABARITO[qid];
+      const ok = marcada === correta;
+      return `
+        <div style="padding:10px;border-left:4px solid ${ok?'#2e7d32':'#d32f2f'};background:#f7faff;border-radius:6px;margin:8px 0">
+          <b>${i+1}.</b> ${ok?'✅ Acertou':'❌ Errou'}<br>
+          <small>Sua: <b>${(marcada||'-').toUpperCase()}</b> · Correta: <b>${correta.toUpperCase()}</b></small>
+        </div>`;
+    }).join('');
+    fb.innerHTML = `<h3 style="margin:8px 0 4px 0;color:#0f3660">Gabarito</h3>${itens}`;
+    fb.style.display = 'block';
+  }
+
+  // ===== “Ir para o próximo” usando o MESMO botão =====
+  function irParaProximo(){
+    if(!proximaPaginaDecidida){ setMsg('Aguarde o salvamento para continuar...'); return; }
+    const btn = document.getElementById('btnEnviar');
+    if (btn){ btn.disabled = true; btn.textContent = 'abrindo...'; }
+    google.script.run
+      .withSuccessHandler(function(html){
+        document.open(); document.write(html); document.close();
+      })
+      .withFailureHandler(function(e){
+        console.error(e);
+        setMsg('Falha ao abrir a próxima página.');
+        if (btn){ btn.disabled = false; btn.textContent = 'Ir para o próximo'; }
+      })
+      .incluir(proximaPaginaDecidida);
+  }
+
+  // ===== Enviar (primeiro clique do mesmo botão) =====
+  function enviar(){
+    if (enviando) return;
+    enviando = true;
+
+    const btn = document.getElementById('btnEnviar');
+    if (btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+    setMsg(''); document.body.style.cursor = 'wait';
+
+    // coleta respostas do reforço
+    const respostas = {
+      q1:getChecked('q1'),
+      q2:getChecked('q2'),
+      q3:getChecked('q3')
+    };
+    if (!respostas.q1 || !respostas.q2 || !respostas.q3){
+      setMsg('❗ Por favor, responda todas as perguntas antes de continuar.');
+      if (btn){ btn.disabled = false; btn.textContent = 'Enviar Respostas'; }
+      document.body.style.cursor = 'default';
+      enviando = false; return;
+    }
+
+    const email = sessionStorage.getItem('email');
+    if (!email){
+      setMsg('⚠️ E-mail do aluno não encontrado. Volte à tela inicial.');
+      if (btn){ btn.disabled = false; btn.textContent = 'Enviar Respostas'; }
+      document.body.style.cursor = 'default';
+      enviando = false;
+      return;
+    }
+
+    // 1) feedback imediato
+    renderFeedback(respostas);
+
+    // 2) salva no backend e pega a rota (sem navegar ainda)
+    const pacote = [email, respostas.q1, respostas.q2, respostas.q3];
+    startLoading();
+    google.script.run
+      .withSuccessHandler(function(proxima){
+        stopLoading();
+        proximaPaginaDecidida = String(proxima||'').replace(/\.html?$/,'') || 'topico02';
+        // transforma o MESMO botão em “Ir para o próximo”
+        if (btn){
+          btn.disabled = false;
+          btn.textContent = 'Ir para o próximo';
+          btn.onclick = irParaProximo;
+        }
+        document.body.style.cursor = 'default';
+        enviando = false;
+      })
+      .withFailureHandler(function(e){
+        stopLoading();
+        console.error(e);
+        setMsg('Não foi possível salvar suas respostas agora. Tente novamente.');
+        if (btn){
+          btn.disabled = false;
+          btn.textContent = 'Enviar Respostas';
+          btn.onclick = enviar; // volta ao fluxo original
+        }
+        document.body.style.cursor = 'default';
+        enviando = false;
+      })
+      .corrigirReforco01(pacote);
+  }
+
+  // expõe somente o handler inicial
+  window.enviar = enviar;
+
+  // Enter envia
+  window.addEventListener('keydown', e => { if(e.key==='Enter') enviar(); });
+
+  // helper opcional
+  function goTo(page){
+    const base = window.location.href.split('?')[0];
+    window.location.replace(`${base}?p=${String(page).replace(/\.html?$/,'')}&ts=${Date.now()}`);
+  }
+  window.goTo = goTo;
+})();
+</script>
+
+</body>
+</html>

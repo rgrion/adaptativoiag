@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    :root{
+      --bg: #e3f2fd;
+      --card: #ffffff;
+      --primary: #1976d2;
+      --primary-hover:#1565c0;
+      --accent:#64b5f6;
+      --muted:#f4f7fb;
+      --text:#0d1b2a;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      background: var(--bg);
+      padding: 20px;
+      margin: 0;
+      color: var(--text);
+    }
+    .container {
+      background: var(--card);
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(13,27,42,0.08);
+    }
+    h2 { color: var(--primary); margin-bottom: 10px; }
+    h3 { margin-top: 20px; color: #0f3660; }
+    pre {
+      background: var(--muted);
+      padding: 12px;
+      border-left: 4px solid var(--accent);
+      overflow-x: auto;
+      border-radius: 6px;
+    }
+    ul { padding-left: 20px; }
+    .pergunta {
+      margin: 25px 0;
+      padding: 15px;
+      background: #f7faff;
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+    }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--primary-hover); }
+    input[type="radio"] { margin-right: 8px; }
+    #mensagem { margin-top: 15px; color: #d32f2f; font-weight: bold; }
+    a { color: var(--primary); }
+    @media (max-width: 600px) {
+      .container { padding: 20px; }
+      h2 { font-size: 1.25em; }
+      button { width: 100%; }
+    }
+    /* Barra de carregamento (mínima, sem alterar layout existente) */
+    .loadingbar {
+      display: none;
+      width: 100%;
+      background: #e0e0e0;
+      border-radius: 8px;
+      overflow: hidden;
+      height: 10px;
+      margin-top: 12px;
+    }
+    .loadingbar > .inner {
+      width: 0%;
+      height: 100%;
+      background: var(--primary);
+      transition: width .2s linear;
+    }
+    .hint { margin-top: 8px; color: #455a64; font-size: 0.95em; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Tópico -->
+    <h2>🧠 Tópico 01 – Fundamentos da Inteligência Artificial e da Geração de Conteúdo</h2>
+
+    <h3>🚀 O que é Inteligência Artificial (IA)?</h3>
+    <p>A Inteligência Artificial (IA) é o campo da computação que busca criar sistemas capazes de simular o raciocínio e o comportamento humano, como:</p>
+    <ul>
+      <li>🧩 Aprender com dados</li>
+      <li>🗣️ Compreender linguagem</li>
+      <li>👀 Reconhecer padrões</li>
+      <li>🧠 Tomar decisões</li>
+    </ul>
+    <p>A ideia não é nova: desde os anos 1950, o matemático Alan Turing já se perguntava “As máquinas podem pensar?”. Desde então, a IA passou por várias fases e revoluções.</p>
+
+    <h3>🧱 1. Da IA simbólica à IA conexionista</h3>
+    <p><strong>IA simbólica (anos 1950–1980):</strong> baseada em regras criadas por humanos (“se… então…”). Funcionava bem em contextos limitados, como jogos e diagnósticos simples.</p>
+    <p><strong>❌ Limitação:</strong> não sabia lidar com ambiguidade ou exceções.</p>
+
+    <p><strong>IA conexionista (a partir dos 1980):</strong> inspirada no cérebro humano 🧬, usa redes neurais artificiais que aprendem com exemplos, não apenas com regras. Tornou a IA capaz de generalizar e melhorar com mais dados.</p>
+
+    <h3>⚙️ 2. A era do aprendizado de máquina</h3>
+    <p>Com a explosão da internet e dos dados digitais, surge o aprendizado de máquina (<em>machine learning</em>), no qual:</p>
+    <ul>
+      <li>🧮 O sistema aprende a reconhecer padrões automaticamente;</li>
+      <li>🔧 Os algoritmos são ajustados conforme os erros e acertos;</li>
+      <li>📈 Quanto mais dados, melhor o aprendizado.</li>
+    </ul>
+    <p>A evolução seguinte foi o aprendizado profundo (<em>deep learning</em>) — redes neurais com várias camadas capazes de extrair padrões complexos.</p>
+    <p>➡️ Essa técnica revolucionou áreas como reconhecimento de voz, tradução automática e visão computacional.</p>
+
+    <h3>🎨 3. A chegada da IA generativa</h3>
+    <p>A IA generativa representa um salto ainda maior. Em vez de apenas analisar ou classificar, ela cria novos conteúdos, como:</p>
+    <ul>
+      <li>✍️ Textos e roteiros</li>
+      <li>🖼️ Imagens e ilustrações</li>
+      <li>🎵 Músicas e sons</li>
+      <li>💻 Códigos de programação</li>
+    </ul>
+    <p><strong>Exemplos conhecidos:</strong> ChatGPT · Gemini · Claude · Midjourney · Runway</p>
+    <p>Tudo isso é possível graças aos modelos de linguagem baseados em <strong>Transformers</strong>, que entendem contexto e prevêm a próxima palavra, pixel ou som de modo coerente.</p>
+    <p>💡 Assim, a IA passou de uma ferramenta de análise para uma parceira criativa!</p>
+
+    <h3>⚖️ 4. Benefícios e limitações</h3>
+    <p><strong>🌟 Benefícios:</strong></p>
+    <ul>
+      <li>Amplia a criatividade humana;</li>
+      <li>Aumenta eficiência e produtividade;</li>
+      <li>Personaliza o aprendizado e a comunicação;</li>
+      <li>Facilita tarefas antes restritas a especialistas.</li>
+    </ul>
+
+    <p><strong>⚠️ Limitações e riscos:</strong></p>
+    <ul>
+      <li>Pode reproduzir preconceitos presentes nos dados;</li>
+      <li>Gera “alucinações” (respostas incorretas, mas convincentes);</li>
+      <li>Levanta questões éticas e autorais;</li>
+      <li>Depende fortemente da qualidade e transparência dos dados.</li>
+    </ul>
+
+    <p>💬 <strong>Em resumo:</strong> a IA generativa é uma ferramenta poderosa — mas, como o fogo ou a eletricidade, seu impacto depende de como escolhemos usá-la 🔥⚡</p>
+
+    <hr>
+
+    <h2>📝 Quiz do Tópico 01</h2>
+
+    <div class="pergunta">
+      <p><b>1.</b> A principal diferença entre a IA simbólica e a IA conexionista está em:</p>
+      <label><input type="radio" name="q1" value="a"> a) O volume de dados usados no treinamento e no processo de ajuste interno dos modelos.</label><br>
+      <label><input type="radio" name="q1" value="b"> b) A forma de processamento e aprendizado dos sistemas ao interpretar e gerar informações.</label><br>
+      <label><input type="radio" name="q1" value="c"> c) O tipo de hardware utilizado para executar cálculos e processar redes de informações.</label><br>
+      <label><input type="radio" name="q1" value="d"> d) O tempo de resposta das aplicações quando submetidas a tarefas de alta complexidade.</label>
+    </div>
+
+    <div class="pergunta">
+      <p><b>2.</b> O aprendizado profundo (<em>deep learning</em>) revolucionou a IA moderna ao ampliar a capacidade das redes neurais. Ele foi essencial para o avanço da IA generativa porque:</p>
+      <label><input type="radio" name="q2" value="a"> a) Reduziu o custo de processamento mantendo a precisão das análises e previsões computacionais.</label><br>
+      <label><input type="radio" name="q2" value="b"> b) Eliminou a necessidade de dados rotulados em todos os estágios do aprendizado automatizado.</label><br>
+      <label><input type="radio" name="q2" value="c"> c) Permitiu que redes neurais aprendessem representações complexas e hierárquicas de informações.</label><br>
+      <label><input type="radio" name="q2" value="d"> d) Substituiu completamente o <em>machine learning</em> como abordagem de treinamento de modelos modernos.</label>
+    </div>
+
+    <div class="pergunta">
+      <p><b>3.</b> Complete as lacunas abaixo:<br>
+      Um modelo generativo como o GPT produz textos ao analisar o ________, identificar padrões ________ e prever a próxima ________ de forma probabilística.</p>
+
+      <label><input type="radio" name="q3" value="a"> a) banco de dados – aleatórios – frase</label><br>
+      <label><input type="radio" name="q3" value="b"> b) comando – fixos – regra</label><br>
+      <label><input type="radio" name="q3" value="c"> c) contexto – semânticos – palavra</label><br>
+      <label><input type="radio" name="q3" value="d"> d) texto pronto – superficiais – sentença</label>
+    </div>
+
+    <div class="pergunta">
+      <p><b>4.</b> Analise as sentenças abaixo sobre o uso de IA generativa em um estúdio de design e marque V para verdadeiro e F para falso:</p>
+
+      <p>
+        I. A IA generativa só consegue criar logotipos quando recebe imagens prontas para copiar diretamente, não sendo capaz de interpretar descrições textuais.<br>
+        II. A criação de logotipos com IA depende principalmente de regras simbólicas rígidas, sem envolvimento de aprendizado baseado em exemplos visuais.<br>
+        III. Ao gerar logotipos, a IA apenas reorganiza elementos fixos pré-carregados, sem produzir variações originais ou adaptadas ao pedido.
+      </p>
+
+      <label><input type="radio" name="q4" value="a"> a) V, F, F</label><br>
+      <label><input type="radio" name="q4" value="b"> b) F, F, F</label><br>
+      <label><input type="radio" name="q4" value="c"> c) F, F, V</label><br>
+      <label><input type="radio" name="q4" value="d"> d) V, V, F</label>
+    </div>
+
+    <div class="pergunta">
+      <p><b>5.</b> Quando uma IA gera um poema original a partir de instruções dadas por uma pessoa, a autoria adequada é atribuída a quem?</p>
+
+      <label><input type="radio" name="q5" value="a"> a) À própria IA</label><br>
+      <label><input type="radio" name="q5" value="b"> b) Sem autoria</label><br>
+      <label><input type="radio" name="q5" value="c"> c) Ao código</label><br>
+      <label><input type="radio" name="q5" value="d"> d) Ao usuário</label>
+    </div>
+
+      <!-- Likert: Dificuldade percebida -->
+      <div class="pergunta">
+        <p><b>Dificuldade percebida</b> (1 = muito fácil · 5 = muito difícil)</p>
+        <label><input type="radio" name="dif" value="1"> 1</label>
+        <label><input type="radio" name="dif" value="2"> 2</label>
+        <label><input type="radio" name="dif" value="3"> 3</label>
+        <label><input type="radio" name="dif" value="4"> 4</label>
+        <label><input type="radio" name="dif" value="5"> 5</label>
+        <div class="hint">Marque como você percebeu a dificuldade deste tópico.</div>
+      </div>
+
+      <!-- Likert: Autoconfiança -->
+      <div class="pergunta">
+        <p><b>Autoconfiança</b> (1 = nada confiante · 5 = muito confiante)</p>
+        <label><input type="radio" name="auto" value="1"> 1</label>
+        <label><input type="radio" name="auto" value="2"> 2</label>
+        <label><input type="radio" name="auto" value="3"> 3</label>
+        <label><input type="radio" name="auto" value="4"> 4</label>
+        <label><input type="radio" name="auto" value="5"> 5</label>
+        <div class="hint">Como você se sente para seguir para o próximo passo?</div>
+      </div>
+
+      <button type="button" id="btnEnviar" onclick="enviar()">Enviar Respostas</button>
+      <div class="loadingbar" id="loadingBar"><div class="inner" id="loadingInner"></div></div>
+      <p id="mensagem"></p>
+
+      <!-- Feedback + Próximo (aparecem após enviar) -->
+      <div id="feedback" style="display:none; margin-top:16px;"></div>
+      <button id="btnProximo" type="button" style="display:none; margin-top:12px;" onclick="irParaProximo()">
+        Ir para o próximo
+      </button>
+    </form>
+  </div>
+
+<script>
+(function(){
+  // ===== Estado =====
+  let enviando = false;
+  let progTimer = null;
+  let proximaPaginaDecidida = null; // rota devolvida pelo backend
+
+  // ===== Gabarito local (atualizado para IA Generativa) =====
+  const GABARITO = { q1:'b', q2:'c', q3:'c', q4:'b', q5:'d' };
+
+  // ===== Helpers =====
+  function getChecked(name){
+    const nodes = document.getElementsByName(name);
+    for (const n of nodes) if (n.checked) return n.value;
+    return null;
+  }
+  function startLoading(){
+    const bar = document.getElementById('loadingBar');
+    const inner = document.getElementById('loadingInner');
+    if(!bar || !inner) return;
+    bar.style.display = 'block';
+    inner.style.width = '0%';
+    let pct = 0;
+    progTimer = setInterval(()=> {
+      pct = Math.min(100, pct + Math.random()*12 + 3);
+      inner.style.width = pct + '%';
+      if (pct >= 95){ clearInterval(progTimer); progTimer = null; }
+    }, 180);
+  }
+  function stopLoading(){
+    const inner = document.getElementById('loadingInner');
+    if (progTimer){ clearInterval(progTimer); progTimer = null; }
+    if (inner) inner.style.width = '100%';
+  }
+  function setMsg(t){
+    const m = document.getElementById('mensagem');
+    if (m) m.textContent = t || '';
+  }
+
+  function renderFeedback(resps){
+    const fb = document.getElementById('feedback');
+    if(!fb) return;
+    const itens = ['q1','q2','q3','q4','q5'].map((qid,i)=>{
+      const marcada = resps[qid], correta = GABARITO[qid];
+      const ok = marcada === correta;
+      return `
+        <div style="padding:10px;border-left:4px solid ${ok?'#2e7d32':'#d32f2f'};background:#f7faff;border-radius:6px;margin:8px 0">
+          <b>${i+1}.</b> ${ok?'✅ Acertou':'❌ Errou'}<br>
+          <small>Sua: <b>${(marcada||'-').toUpperCase()}</b> · Correta: <b>${correta.toUpperCase()}</b></small>
+        </div>`;
+    }).join('');
+    fb.innerHTML = `<h3 style="margin:8px 0 4px 0;color:#0f3660">Gabarito</h3>${itens}`;
+    fb.style.display = 'block';
+  }
+
+  // ===== Ação do MESMO botão após salvar =====
+  function irParaProximo(){
+    if(!proximaPaginaDecidida){ setMsg('Aguarde o salvamento para continuar...'); return; }
+    const btn = document.getElementById('btnEnviar');
+    if (btn){ btn.disabled = true; btn.textContent = 'abrindo...'; }
+    google.script.run
+      .withSuccessHandler(function(html){
+        document.open(); document.write(html); document.close();
+      })
+      .withFailureHandler(function(e){
+        console.error(e);
+        setMsg('Falha ao abrir a próxima página.');
+        if (btn){ btn.disabled = false; btn.textContent = 'Ir para o próximo'; }
+      })
+      .incluir(proximaPaginaDecidida);
+  }
+
+  // ===== Enviar (primeiro clique do mesmo botão) =====
+  function enviar(){
+    if (enviando) return;
+    enviando = true;
+
+    const btn = document.getElementById('btnEnviar');
+    if (btn){ btn.disabled = true; btn.textContent = 'Enviando...'; }
+    setMsg(''); document.body.style.cursor = 'wait';
+
+    // coleta respostas
+    const respostas = {
+      q1:getChecked('q1'), q2:getChecked('q2'), q3:getChecked('q3'),
+      q4:getChecked('q4'), q5:getChecked('q5'),
+      dif:getChecked('dif'), auto:getChecked('auto')
+    };
+
+    if (!respostas.q1 || !respostas.q2 || !respostas.q3 || !respostas.q4 || !respostas.q5){
+      setMsg('❗ Por favor, responda todas as perguntas do quiz.');
+      if (btn){ btn.disabled = false; btn.textContent = 'Enviar Respostas'; }
+      document.body.style.cursor = 'default'; enviando = false; return;
+    }
+    if (!respostas.dif || !respostas.auto){
+      setMsg('❗ Marque Dificuldade percebida e Autoconfiança (1–5).');
+      if (btn){ btn.disabled = false; btn.textContent = 'Enviar Respostas'; }
+      document.body.style.cursor = 'default'; enviando = false; return;
+    }
+
+    const email = sessionStorage.getItem('email');
+    if (!email){
+      setMsg('⚠️ E-mail do aluno não encontrado. Volte à tela inicial.');
+      if (btn){ btn.disabled = false; btn.textContent = 'Enviar Respostas'; }
+      document.body.style.cursor = 'default'; 
+      enviando = false; 
+      return;
+    }
+
+    // 1) feedback imediato
+    renderFeedback({ q1:respostas.q1, q2:respostas.q2, q3:respostas.q3, q4:respostas.q4, q5:respostas.q5 });
+
+    // 2) salva e guarda rota
+    const pacote = [email, respostas.q1, respostas.q2, respostas.q3, respostas.q4, respostas.q5, Number(respostas.dif), Number(respostas.auto)];
+    startLoading();
+    google.script.run
+      .withSuccessHandler(function(proxima){
+        stopLoading();
+        proximaPaginaDecidida = String(proxima||'').replace(/\.html?$/,'') || 'topico02';
+        // transforma o MESMO botão em “Ir para o próximo”
+        if (btn){
+          btn.disabled = false;
+          btn.textContent = 'Ir para o próximo';
+          btn.onclick = irParaProximo;
+        }
+        document.body.style.cursor = 'default';
+        enviando = false;
+      })
+      .withFailureHandler(function(e){
+        stopLoading();
+        console.error(e);
+        setMsg('Não foi possível salvar suas respostas agora. Tente novamente.');
+        if (btn){
+          btn.disabled = false;
+          btn.textContent = 'Enviar Respostas';
+          btn.onclick = enviar; // garante voltar ao fluxo original
+        }
+        document.body.style.cursor = 'default';
+        enviando = false;
+      })
+      .corrigirQuiz01(pacote);
+  }
+
+  // expõe apenas o handler inicial
+  window.enviar = enviar;
+
+  // Enter envia
+  window.addEventListener('keydown', e => { if(e.key==='Enter') enviar(); });
+
+  // helper opcional
+  function goTo(page){
+    const base = window.location.href.split('?')[0];
+    window.location.replace(`${base}?p=${String(page).replace(/\.html?$/,'')}&ts=${Date.now()}`);
+  }
+  window.goTo = goTo;
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação Final</title>
+  <style>
+    :root{
+      --bg: #e3f2fd;
+      --card: #ffffff;
+      --primary: #1976d2;
+      --primary-hover:#1565c0;
+      --accent:#64b5f6;
+      --muted:#f4f7fb;
+      --text:#0d1b2a;
+    }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, Arial, sans-serif;
+      background: var(--bg);
+      padding: 20px;
+      margin: 0;
+      color: var(--text);
+    }
+    .container {
+      background: var(--card);
+      max-width: 900px;
+      margin: auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(13,27,42,0.08);
+    }
+    h2 { color: var(--primary); margin-bottom: 10px; }
+    h3 { margin-top: 20px; color: #0f3660; }
+    ul { padding-left: 20px; }
+    .pergunta {
+      margin: 25px 0;
+      padding: 15px;
+      background: #f7faff;
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+    }
+    button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover { background: var(--primary-hover); }
+    input[type="radio"] { margin-right: 8px; }
+    #mensagem { margin-top: 15px; color: #d32f2f; font-weight: bold; }
+    @media (max-width: 600px) {
+      .container { padding: 20px; }
+      h2 { font-size: 1.25em; }
+      button { width: 100%; }
+    }
+    /* Barra de carregamento */
+    .loadingbar {
+      display:none; width:100%; background:#e0e0e0;
+      border-radius:8px; overflow:hidden; height:10px; margin-top:12px;
+    }
+    .loadingbar>.inner {
+      width:0%; height:100%; background:var(--primary); transition:width .2s linear;
+    }
+    .hint { margin-top: 8px; color: #455a64; font-size: 0.95em; }
+    h2 { text-align: center; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📝 Avaliação Final</h2>
+    <div class="info">
+      <p style="text-align: justify;"><b>Instruções:</b> Leia cada questão com atenção. Marque <u>apenas uma alternativa</u> por pergunta. Esta avaliação considera os principais conhecimentos práticos e teóricos aprendidos ao longo do curso.</p>
+    </div>
+
+    <form id="quizForm">
+
+      <!-- Q1 (antes era a Q7) -->
+      <div class="pergunta">
+        <p><b>1. Em ética, a transparência no uso de IA implica:</b></p>
+        <label><input type="radio" name="q1" value="a"> a) Transferir toda a responsabilidade pelos resultados à empresa da IA.</label><br>
+        <label><input type="radio" name="q1" value="b"> b) Omitir a ferramenta para manter a aparência de autoria totalmente humana.</label><br>
+        <label><input type="radio" name="q1" value="c"> c) Indicar o uso de IA e explicar de forma simples como ela ajudou no processo.</label><br>
+        <label><input type="radio" name="q1" value="d"> d) Exigir divulgação do código-fonte sempre que a IA for usada em trabalhos.</label>
+      </div>
+
+      <!-- Q2 (antes era a Q3) -->
+      <div class="pergunta">
+        <p><b>2. Em modelos como o GPT, o texto é gerado por:</b></p>
+        <label><input type="radio" name="q2" value="a"> a) Prever a próxima palavra com base no contexto e nas relações aprendidas.</label><br>
+        <label><input type="radio" name="q2" value="b"> b) Aplicar regras gramaticais fixas para formar frases de modo determinístico.</label><br>
+        <label><input type="radio" name="q2" value="c"> c) Escolher palavras ao acaso do vocabulário, criando textos sem estrutura.</label><br>
+        <label><input type="radio" name="q2" value="d"> d) Buscar frases do treino e montar respostas por similaridade textual.</label>
+      </div>
+
+      <!-- Q3 (antes era a Q9) -->
+      <div class="pergunta">
+        <p><b>3. Em educação, um sistema adaptativo com IA pode:</b></p>
+        <label><input type="radio" name="q3" value="a"> a) Dispensar qualquer acompanhamento humano durante toda a aprendizagem.</label><br>
+        <label><input type="radio" name="q3" value="b"> b) Substituir completamente o professor na mediação e avaliação do processo.</label><br>
+        <label><input type="radio" name="q3" value="c"> c) Aplicar a mesma sequência de aulas para garantir total uniformidade no ensino.</label><br>
+        <label><input type="radio" name="q3" value="d"> d) Ajustar conteúdo e ritmo com base no desempenho e nas necessidades do aluno.</label>
+      </div>
+
+      <!-- Q4 (antes era a Q1) -->
+      <div class="pergunta">
+        <p><b>4. Sobre IA simbólica e IA conexionista, assinale a opção mais adequada:</b></p>
+        <label><input type="radio" name="q4" value="a"> a) A simbólica é recente na área, e a conexionista surgiu apenas nas últimas décadas.</label><br>
+        <label><input type="radio" name="q4" value="b"> b) A simbólica usa processadores neurais, e a conexionista dispensa hardware avançado.</label><br>
+        <label><input type="radio" name="q4" value="c"> c) A simbólica usa regras explícitas, e a conexionista aprende padrões usando dados.</label><br>
+        <label><input type="radio" name="q4" value="d"> d) A simbólica usa exemplos massivos, e a conexionista segue regras fixas definidas.</label>
+      </div>
+
+      <!-- Q5 (antes era a Q6) -->
+      <div class="pergunta">
+        <p><b>5. Um risco da IA generativa é a “alucinação”, isto é:</b></p>
+        <label><input type="radio" name="q5" value="a"> a) Respostas erradas que parecem verdadeiras e convincentes ao usuário.</label><br>
+        <label><input type="radio" name="q5" value="b"> b) Falhas de rede que desconectam o modelo dos servidores por instabilidade.</label><br>
+        <label><input type="radio" name="q5" value="c"> c) Textos incompletos gerados por interrupção no processo de treinamento.</label><br>
+        <label><input type="radio" name="q5" value="d"> d) Repetição automática de respostas iguais sem relação com o pedido feito.</label>
+      </div>
+
+      <!-- Q6 (antes era a Q10) -->
+      <div class="pergunta">
+        <p><b>6. Sobre criatividade na era da IA:</b></p>
+        <label><input type="radio" name="q6" value="a"> a) A IA substitui a intenção humana, tornando desnecessário o papel do autor no processo.</label><br>
+        <label><input type="radio" name="q6" value="b"> b) A IA combina padrões aprendidos, mas o sentido final depende da curadoria humana.</label><br>
+        <label><input type="radio" name="q6" value="c"> c) Coautoria não se aplica a trabalhos profissionais, só a experimentos informais.</label><br>
+        <label><input type="radio" name="q6" value="d"> d) Criatividade autêntica exige total ausência de tecnologia e atuação apenas humana.</label>
+      </div>
+
+      <!-- Q7 (antes era a Q4) -->
+      <div class="pergunta">
+        <p><b>7. Um prompt eficaz tende a:</b></p>
+        <label><input type="radio" name="q7" value="a"> a) Ser vago para deixar a IA definir livremente conteúdo e estilo da resposta.</label><br>
+        <label><input type="radio" name="q7" value="b"> b) Evitar exemplos e detalhes para não impor limites à criatividade do modelo.</label><br>
+        <label><input type="radio" name="q7" value="c"> c) Trazer pouco contexto para evitar interferências no processamento da IA.</label><br>
+        <label><input type="radio" name="q7" value="d"> d) Indicar objetivo, público, formato e limites de modo claro e direto.</label>
+      </div>
+
+      <!-- Q8 (antes era a Q5) -->
+      <div class="pergunta">
+        <p><b>8. Sobre LLMs e modelos de difusão, assinale a correta:</b></p>
+        <label><input type="radio" name="q8" value="a"> a) Difusão não usa dados de treino, pois funciona só com parâmetros internos.</label><br>
+        <label><input type="radio" name="q8" value="b"> b) LLMs lidam com texto, e difusão cria imagens e vídeos a partir de ruído.</label><br>
+        <label><input type="radio" name="q8" value="c"> c) LLMs geram imagens, e difusão trabalha apenas com produção textual.</label><br>
+        <label><input type="radio" name="q8" value="d"> d) LLMs e difusão são iguais, mudando só a linguagem usada no código.</label>
+      </div>
+
+      <!-- Q9 (antes era a Q2) -->
+      <div class="pergunta">
+        <p><b>9. O deep learning contribuiu para a IA generativa porque:</b></p>
+        <label><input type="radio" name="q9" value="a"> a) Eliminou etapas manuais, fazendo que todos os modelos funcionem sem intervenção humana.</label><br>
+        <label><input type="radio" name="q9" value="b"> b) Substituiu métodos estatísticos, tornando os modelos puramente conexionistas e autoajustáveis.</label><br>
+        <label><input type="radio" name="q9" value="c"> c) Permitiu redes profundas que extraem padrões complexos e hierárquicos dos dados usados.</label><br>
+        <label><input type="radio" name="q9" value="d"> d) Tornou dispensável o uso de dados rotulados, permitindo aprendizado totalmente autônomo.</label>
+      </div>
+
+      <!-- Q10 (antes era a Q8) -->
+      <div class="pergunta">
+        <p><b>10. Sobre direitos autorais e IA generativa:</b></p>
+        <label><input type="radio" name="q10" value="a"> a) A autoria é do humano que orienta a criação, devendo declarar o uso da IA.</label><br>
+        <label><input type="radio" name="q10" value="b"> b) Conteúdos feitos por IA são automaticamente públicos e sem direitos.</label><br>
+        <label><input type="radio" name="q10" value="c"> c) O usuário pode reivindicar autoria total mesmo sem atuar no processo.</label><br>
+        <label><input type="radio" name="q10" value="d"> d) A IA é autora legal de obras produzidas sem intervenção humana direta.</label>
+      </div>
+
+      <button type="button" id="btnEnviar" onclick="enviar()">Enviar Avaliação</button>
+      <div class="loadingbar" id="loadingBar"><div class="inner" id="loadingInner"></div></div>
+      <div id="feedback" class="gabarito" style="display:none;"></div>
+      <p id="mensagem"></p>
+
+    </form>
+  </div>
+
+<script>
+(function(){
+  let enviando=false, progTimer=null, proximaPaginaDecidida=null;
+
+  // === GABARITO DA AVALIAÇÃO FINAL (10 questões) ===
+  const GABARITO = ['c','a','d','c','a','b','d','b','c','a'];
+
+  function setMsg(t){ const el=document.getElementById('mensagem'); if(el) el.textContent=t||''; }
+  function getChecked(name){
+    const nodes=document.getElementsByName(name);
+    for(const n of nodes) if(n.checked) return n.value;
+    return null;
+  }
+  function startLoading(){
+    const bar=document.getElementById('loadingBar');
+    const inner=document.getElementById('loadingInner');
+    if(!bar||!inner) return;
+    bar.style.display='block'; inner.style.width='0%';
+    let pct=0;
+    progTimer=setInterval(()=>{ pct=Math.min(100,pct+Math.random()*12+3); inner.style.width=pct+'%'; if(pct>=95){ clearInterval(progTimer); progTimer=null; } },180);
+  }
+  function stopLoading(){
+    const inner=document.getElementById('loadingInner');
+    if(progTimer){ clearInterval(progTimer); progTimer=null; }
+    if(inner) inner.style.width='100%';
+  }
+
+  function renderFeedback(resps){
+    const fb=document.getElementById('feedback');
+    if(!fb) return;
+    let acertos=0;
+    const itens = GABARITO.map((correta, i) => {
+      const qid = 'q' + (i+1);
+      const marcada = (resps[i] || '').toLowerCase();
+      const ok = marcada === correta;
+      if (ok) acertos++;
+      return `
+        <div style="padding:10px;border-left:4px solid ${ok?'#2e7d32':'#d32f2f'};background:#f7faff;border-radius:6px;margin:8px 0">
+          <b>${i+1}.</b> ${ok?'✅ Acertou':'❌ Errou'}<br>
+          <small>Sua: <b>${(marcada||'-').toUpperCase()}</b> · Correta: <b>${correta.toUpperCase()}</b></small>
+        </div>`;
+    }).join('');
+    fb.innerHTML = `
+      <h3 style="margin:8px 0 4px 0;color:#0f3660">Gabarito</h3>
+      <div style="margin:6px 0 10px 0"><b>Nota Total:</b> ${acertos}/10</div>
+      ${itens}
+    `;
+    fb.style.display='block';
+  }
+
+  function irParaProximo(){
+    if(!proximaPaginaDecidida){ setMsg('Aguarde o salvamento para continuar…'); return; }
+    const btn=document.getElementById('btnEnviar');
+    if(btn){ btn.disabled=true; btn.textContent='Abrindo…'; }
+    document.body.style.cursor='wait';
+
+    google.script.run
+      .withSuccessHandler(function(html){
+        document.open(); document.write(html); document.close();
+      })
+      .withFailureHandler(function(err2){
+        console.error('[AVAL_FINAL] incluir falhou:', err2);
+        setMsg('Falha ao abrir a próxima página. Tente novamente.');
+        if(btn){ btn.disabled=false; btn.textContent='Ir para o próximo'; btn.onclick=irParaProximo; }
+        document.body.style.cursor='default';
+      })
+      .incluir(proximaPaginaDecidida);
+  }
+
+  function enviar(){
+    if(enviando) return;
+    enviando=true;
+
+    const btn=document.getElementById('btnEnviar');
+    if(btn){ btn.disabled=true; btn.textContent='Enviando...'; }
+    setMsg('');
+    document.body.style.cursor='wait';
+
+    const keys=['q1','q2','q3','q4','q5','q6','q7','q8','q9','q10'];
+    const respostas=keys.map(getChecked);
+    const faltando=respostas.findIndex(r=>r===null);
+    if(faltando!==-1){
+      setMsg(`❗ Responda todas as perguntas (faltou a nº ${faltando+1}).`);
+      if(btn){ btn.disabled=false; btn.textContent='Enviar Avaliação'; btn.onclick=enviar; }
+      document.body.style.cursor='default';
+      enviando=false; return;
+    }
+
+    const email = sessionStorage.getItem('email');
+    if (!email){
+      setMsg('⚠️ E-mail do aluno não encontrado. Volte à tela inicial.');
+      if (btn){ 
+        btn.disabled = false; 
+        btn.textContent = 'Enviar Avaliação'; 
+        btn.onclick = enviar; 
+      }
+      document.body.style.cursor = 'default';
+      enviando = false; 
+      return;
+    }
+
+    // 1) mostra gabarito imediato (igual aos tópicos)
+    renderFeedback(respostas);
+
+    // 2) salva e define próxima rota
+    const pacote=[email, ...respostas];
+    startLoading();
+
+    google.script.run
+      .withSuccessHandler(function(proxima){
+        stopLoading();
+        let rota=String(proxima||'').replace(/\.html?$/i,'').toLowerCase();
+        const ALLOW=new Set(['ux','finalagradecimento']);
+        if(!ALLOW.has(rota)) rota='ux';
+        proximaPaginaDecidida=rota;
+
+        if(btn){
+          btn.disabled=false;
+          btn.textContent='Ir para o próximo';
+          btn.onclick=irParaProximo;
+        }
+        document.body.style.cursor='default';
+        enviando=false;
+      })
+      .withFailureHandler(function(e){
+        stopLoading();
+        console.error('[AVAL_FINAL] corrigirAvaliacaoFinal falhou:', e);
+        setMsg('Não foi possível enviar sua avaliação agora. Tente novamente.');
+        if(btn){
+          btn.disabled=false;
+          btn.textContent='Enviar Avaliação';
+          btn.onclick=enviar;
+        }
+        document.body.style.cursor='default';
+        enviando=false;
+      })
+      .corrigirAvaliacaoFinal(pacote);
+  }
+
+  // expõe
+  window.enviar=enviar;
+  window.irParaProximo=irParaProximo;
+
+  // Enter envia
+  window.addEventListener('keydown', e=>{ if(e.key==='Enter') enviar(); });
+
+  // helper opcional
+  function goTo(page){
+    const base=window.location.href.split('?')[0];
+    window.location.replace(`${base}?p=${String(page).replace(/\.html?$/,'')}&ts=${Date.now()}`);
+  }
+  window.goTo=goTo;
+})();
+</script>
+</body>
+</html>
